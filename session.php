@@ -1,22 +1,25 @@
 <?php
 
 $result = '';
+$name= 'No name';
+session_start();
 
-if(isset($_POST)){
-    if(isset($_POST['start'])){
-        session_start();
+if(isset($_GET['form'])){
+    if($_GET['form']=='start'){
+        echo 'Se ha creado, se debe ver';
         $_SESSION['admin'] = 'admin';
         $_SESSION['password'] = 'password';
-        echo $_SESSION['admin'].'<br/>';
-        $result = $_POST['start'];
-    }else{
-        $result = $_POST['end'];
-        session_start();
+        $result = $_GET['form'];
+    }elseif($_GET['form']=='end'){
+        echo 'Se ha destruido, no se debe ver';
+        $result = $_GET['form'];
         session_destroy();
     }
 }
-echo $result;
+    $name= isset($_POST['name'])?$_POST['name']:'No name';
+    
 
+    echo isset($_SESSION['admin'])?$_SESSION['admin']:'No user'.'<br/>';
 
 ?>
 
@@ -30,13 +33,25 @@ echo $result;
     <title>Document</title>
 </head>
 <body>
-    <form action="session.php" method="post">
-        <input type="hidden" name="start" value="ON">
+    
+    <form action="session.php?form=start" method="post">
         <input type="submit" value="Start session">
     </form>
-    <form action="session.php" method="post">
-        <input type="hidden" name="end" value="OFF">
+    <form action="session.php?form=end" method="post">
         <input type="submit" value="Close session">
     </form>
+    <form action="session.php" method="post">
+        <input type="text" name="name" id="" placeholder="name">
+        <input type="submit" value="Insert">
+    </form>
+    <h2>
+        <?php echo $name;?>
+    </h2>
+    <?php if($name == 'if'){ ?>
+        <p> If condicionado</p>
+    <?php }else{ ?>
+        <p>Else condicionado </p>
+    <?php }?>
+
 </body>
 </html>
